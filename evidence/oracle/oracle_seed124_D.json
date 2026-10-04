@@ -1,0 +1,913 @@
+{
+  "scope": "one held-out example, two layers/heads, positions 256/287; local error only",
+  "group": "D",
+  "seed": 124,
+  "data_seed": 6123,
+  "dataset_sha256": "79df47af7a2712d3ab9868cf1958f61c2cb5acfb8d14ba4f21b32b914bafc795",
+  "checkpoint_step": 38750,
+  "checkpoint_sha256": "4f2f47ddd006b322501d681da438e0edfa5ac64adc44053057942f7d0cf8540e",
+  "quality_claim": "none; low local error cannot rescue failed task accuracy",
+  "rows": [
+    {
+      "position": 256,
+      "candidate_history_blocks": 8,
+      "enumerated_subsets": 256,
+      "points": [
+        {
+          "at_most_k": 0,
+          "oracle_relative_mse": 1.0234683752059937,
+          "oracle_set": [],
+          "router_relative_mse": 1.0234683752059937
+        },
+        {
+          "at_most_k": 1,
+          "oracle_relative_mse": 0.0008504508878104389,
+          "oracle_set": [
+            0
+          ],
+          "router_relative_mse": 1.0641318559646606
+        },
+        {
+          "at_most_k": 2,
+          "oracle_relative_mse": 0.0005318024777807295,
+          "oracle_set": [
+            0,
+            7
+          ],
+          "router_relative_mse": 0.0020852733869105577
+        },
+        {
+          "at_most_k": 3,
+          "oracle_relative_mse": 0.00039063853910192847,
+          "oracle_set": [
+            0,
+            5,
+            7
+          ],
+          "router_relative_mse": 0.0013280188431963325
+        },
+        {
+          "at_most_k": 4,
+          "oracle_relative_mse": 0.00035412891884334385,
+          "oracle_set": [
+            0,
+            3,
+            5,
+            7
+          ],
+          "router_relative_mse": 0.0007853272254578769
+        },
+        {
+          "at_most_k": 5,
+          "oracle_relative_mse": 0.00035412891884334385,
+          "oracle_set": [
+            0,
+            3,
+            5,
+            7
+          ],
+          "router_relative_mse": 0.0003906153724528849
+        },
+        {
+          "at_most_k": 6,
+          "oracle_relative_mse": 0.00016807953943498433,
+          "oracle_set": [
+            0,
+            1,
+            3,
+            4,
+            6,
+            7
+          ],
+          "router_relative_mse": 0.0001872362190624699
+        },
+        {
+          "at_most_k": 7,
+          "oracle_relative_mse": 3.97567346226424e-05,
+          "oracle_set": [
+            0,
+            1,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "router_relative_mse": 4.997651922167279e-05
+        },
+        {
+          "at_most_k": 8,
+          "oracle_relative_mse": 1.289215045482961e-13,
+          "oracle_set": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "router_relative_mse": 1.289215045482961e-13
+        }
+      ],
+      "q_rms": 0.6570653319358826,
+      "k_rms": 0.9743344783782959,
+      "v_rms": 0.3524734377861023,
+      "k_centered_token_rms": 0.7849186658859253,
+      "v_centered_token_rms": 0.3453279137611389,
+      "dense_output_rms": 0.2606085240840912,
+      "layer": 0,
+      "head": 0
+    },
+    {
+      "position": 287,
+      "candidate_history_blocks": 8,
+      "enumerated_subsets": 256,
+      "points": [
+        {
+          "at_most_k": 0,
+          "oracle_relative_mse": 0.7984523177146912,
+          "oracle_set": [],
+          "router_relative_mse": 0.7984523177146912
+        },
+        {
+          "at_most_k": 1,
+          "oracle_relative_mse": 1.8183078509537154e-07,
+          "oracle_set": [
+            0
+          ],
+          "router_relative_mse": 1.8183078509537154e-07
+        },
+        {
+          "at_most_k": 2,
+          "oracle_relative_mse": 1.2320333553361706e-07,
+          "oracle_set": [
+            0,
+            7
+          ],
+          "router_relative_mse": 1.3296225631620473e-07
+        },
+        {
+          "at_most_k": 3,
+          "oracle_relative_mse": 8.043172528005016e-08,
+          "oracle_set": [
+            0,
+            6,
+            7
+          ],
+          "router_relative_mse": 8.353740810207455e-08
+        },
+        {
+          "at_most_k": 4,
+          "oracle_relative_mse": 4.720842738947795e-08,
+          "oracle_set": [
+            0,
+            2,
+            6,
+            7
+          ],
+          "router_relative_mse": 4.924862295752064e-08
+        },
+        {
+          "at_most_k": 5,
+          "oracle_relative_mse": 2.3763265133425193e-08,
+          "oracle_set": [
+            0,
+            1,
+            2,
+            6,
+            7
+          ],
+          "router_relative_mse": 2.3763265133425193e-08
+        },
+        {
+          "at_most_k": 6,
+          "oracle_relative_mse": 9.031893455357931e-09,
+          "oracle_set": [
+            0,
+            1,
+            2,
+            5,
+            6,
+            7
+          ],
+          "router_relative_mse": 9.031893455357931e-09
+        },
+        {
+          "at_most_k": 7,
+          "oracle_relative_mse": 1.941860006127172e-09,
+          "oracle_set": [
+            0,
+            1,
+            2,
+            3,
+            5,
+            6,
+            7
+          ],
+          "router_relative_mse": 1.941860006127172e-09
+        },
+        {
+          "at_most_k": 8,
+          "oracle_relative_mse": 1.2918759317241246e-14,
+          "oracle_set": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "router_relative_mse": 1.2918759317241246e-14
+        }
+      ],
+      "q_rms": 1.5049643516540527,
+      "k_rms": 0.9653730392456055,
+      "v_rms": 0.3580684959888458,
+      "k_centered_token_rms": 0.7669733762741089,
+      "v_centered_token_rms": 0.35088348388671875,
+      "dense_output_rms": 0.43890851736068726,
+      "layer": 0,
+      "head": 0
+    },
+    {
+      "position": 256,
+      "candidate_history_blocks": 8,
+      "enumerated_subsets": 256,
+      "points": [
+        {
+          "at_most_k": 0,
+          "oracle_relative_mse": 1.0108016729354858,
+          "oracle_set": [],
+          "router_relative_mse": 1.0108016729354858
+        },
+        {
+          "at_most_k": 1,
+          "oracle_relative_mse": 0.0003498740552458912,
+          "oracle_set": [
+            0
+          ],
+          "router_relative_mse": 0.9990490674972534
+        },
+        {
+          "at_most_k": 2,
+          "oracle_relative_mse": 5.2326391596579924e-05,
+          "oracle_set": [
+            0,
+            1
+          ],
+          "router_relative_mse": 5.2326391596579924e-05
+        },
+        {
+          "at_most_k": 3,
+          "oracle_relative_mse": 3.090101745328866e-05,
+          "oracle_set": [
+            0,
+            1,
+            4
+          ],
+          "router_relative_mse": 3.2341347832698375e-05
+        },
+        {
+          "at_most_k": 4,
+          "oracle_relative_mse": 1.6149460861925036e-05,
+          "oracle_set": [
+            0,
+            1,
+            2,
+            4
+          ],
+          "router_relative_mse": 1.9234992578276433e-05
+        },
+        {
+          "at_most_k": 5,
+          "oracle_relative_mse": 7.422545422741678e-06,
+          "oracle_set": [
+            0,
+            1,
+            2,
+            4,
+            6
+          ],
+          "router_relative_mse": 7.422545422741678e-06
+        },
+        {
+          "at_most_k": 6,
+          "oracle_relative_mse": 3.2360419481847202e-06,
+          "oracle_set": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            6
+          ],
+          "router_relative_mse": 3.2360419481847202e-06
+        },
+        {
+          "at_most_k": 7,
+          "oracle_relative_mse": 8.239081807914772e-07,
+          "oracle_set": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "router_relative_mse": 8.239081807914772e-07
+        },
+        {
+          "at_most_k": 8,
+          "oracle_relative_mse": 1.521119249439304e-13,
+          "oracle_set": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "router_relative_mse": 1.521119249439304e-13
+        }
+      ],
+      "q_rms": 0.8564918637275696,
+      "k_rms": 0.9623579382896423,
+      "v_rms": 0.7024253606796265,
+      "k_centered_token_rms": 0.7689952850341797,
+      "v_centered_token_rms": 0.7005912661552429,
+      "dense_output_rms": 0.47760069370269775,
+      "layer": 0,
+      "head": 1
+    },
+    {
+      "position": 287,
+      "candidate_history_blocks": 8,
+      "enumerated_subsets": 256,
+      "points": [
+        {
+          "at_most_k": 0,
+          "oracle_relative_mse": 1.0300730466842651,
+          "oracle_set": [],
+          "router_relative_mse": 1.0300730466842651
+        },
+        {
+          "at_most_k": 1,
+          "oracle_relative_mse": 3.5862339573672353e-13,
+          "oracle_set": [
+            0
+          ],
+          "router_relative_mse": 3.5862339573672353e-13
+        },
+        {
+          "at_most_k": 2,
+          "oracle_relative_mse": 2.902856720190389e-13,
+          "oracle_set": [
+            0,
+            4
+          ],
+          "router_relative_mse": 3.960376948261568e-13
+        },
+        {
+          "at_most_k": 3,
+          "oracle_relative_mse": 2.705574208682754e-13,
+          "oracle_set": [
+            0,
+            1,
+            3
+          ],
+          "router_relative_mse": 2.919058766405469e-13
+        },
+        {
+          "at_most_k": 4,
+          "oracle_relative_mse": 1.745737072695458e-13,
+          "oracle_set": [
+            0,
+            1,
+            3,
+            6
+          ],
+          "router_relative_mse": 2.0637522723729318e-13
+        },
+        {
+          "at_most_k": 5,
+          "oracle_relative_mse": 9.498922237975368e-14,
+          "oracle_set": [
+            0,
+            1,
+            2,
+            3,
+            6
+          ],
+          "router_relative_mse": 1.0810199035839879e-13
+        },
+        {
+          "at_most_k": 6,
+          "oracle_relative_mse": 4.231398827788009e-14,
+          "oracle_set": [
+            0,
+            1,
+            3,
+            4,
+            5,
+            6
+          ],
+          "router_relative_mse": 5.476163888128681e-14
+        },
+        {
+          "at_most_k": 7,
+          "oracle_relative_mse": 1.0247382573025897e-14,
+          "oracle_set": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "router_relative_mse": 5.4725389259276114e-14
+        },
+        {
+          "at_most_k": 8,
+          "oracle_relative_mse": 1.203796554253352e-15,
+          "oracle_set": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "router_relative_mse": 1.203796554253352e-15
+        }
+      ],
+      "q_rms": 1.6501048803329468,
+      "k_rms": 0.9502491354942322,
+      "v_rms": 0.6962302923202515,
+      "k_centered_token_rms": 0.7495266795158386,
+      "v_centered_token_rms": 0.6939278244972229,
+      "dense_output_rms": 0.7083534598350525,
+      "layer": 0,
+      "head": 1
+    },
+    {
+      "position": 256,
+      "candidate_history_blocks": 8,
+      "enumerated_subsets": 256,
+      "points": [
+        {
+          "at_most_k": 0,
+          "oracle_relative_mse": 13.015555381774902,
+          "oracle_set": [],
+          "router_relative_mse": 13.015555381774902
+        },
+        {
+          "at_most_k": 1,
+          "oracle_relative_mse": 0.00541428430005908,
+          "oracle_set": [
+            7
+          ],
+          "router_relative_mse": 1.4109913110733032
+        },
+        {
+          "at_most_k": 2,
+          "oracle_relative_mse": 1.9106063953167052e-10,
+          "oracle_set": [
+            3,
+            7
+          ],
+          "router_relative_mse": 1.4093658924102783
+        },
+        {
+          "at_most_k": 3,
+          "oracle_relative_mse": 2.6289361312881177e-11,
+          "oracle_set": [
+            0,
+            3,
+            7
+          ],
+          "router_relative_mse": 0.03613865375518799
+        },
+        {
+          "at_most_k": 4,
+          "oracle_relative_mse": 8.11491715838053e-13,
+          "oracle_set": [
+            0,
+            1,
+            3,
+            7
+          ],
+          "router_relative_mse": 0.036138635128736496
+        },
+        {
+          "at_most_k": 5,
+          "oracle_relative_mse": 1.0083313985208633e-14,
+          "oracle_set": [
+            0,
+            1,
+            3,
+            6,
+            7
+          ],
+          "router_relative_mse": 0.036138635128736496
+        },
+        {
+          "at_most_k": 6,
+          "oracle_relative_mse": 1.1055021923727531e-15,
+          "oracle_set": [
+            0,
+            1,
+            3,
+            5,
+            6,
+            7
+          ],
+          "router_relative_mse": 0.03613899648189545
+        },
+        {
+          "at_most_k": 7,
+          "oracle_relative_mse": 1.0492994387400621e-15,
+          "oracle_set": [
+            0,
+            1,
+            2,
+            3,
+            5,
+            6,
+            7
+          ],
+          "router_relative_mse": 2.1241643860525627e-11
+        },
+        {
+          "at_most_k": 8,
+          "oracle_relative_mse": 1.0492994387400621e-15,
+          "oracle_set": [
+            0,
+            1,
+            2,
+            3,
+            5,
+            6,
+            7
+          ],
+          "router_relative_mse": 1.0492994387400621e-15
+        }
+      ],
+      "q_rms": 3.2039897441864014,
+      "k_rms": 4.1738972663879395,
+      "v_rms": 0.39813223481178284,
+      "k_centered_token_rms": 4.109098434448242,
+      "v_centered_token_rms": 0.36255964636802673,
+      "dense_output_rms": 0.2240905612707138,
+      "layer": 1,
+      "head": 0
+    },
+    {
+      "position": 287,
+      "candidate_history_blocks": 8,
+      "enumerated_subsets": 256,
+      "points": [
+        {
+          "at_most_k": 0,
+          "oracle_relative_mse": 0.008498148992657661,
+          "oracle_set": [],
+          "router_relative_mse": 0.008498148992657661
+        },
+        {
+          "at_most_k": 1,
+          "oracle_relative_mse": 0.0024078278802335262,
+          "oracle_set": [
+            6
+          ],
+          "router_relative_mse": 0.0027406122535467148
+        },
+        {
+          "at_most_k": 2,
+          "oracle_relative_mse": 0.0009129048557952046,
+          "oracle_set": [
+            1,
+            6
+          ],
+          "router_relative_mse": 0.002169280545786023
+        },
+        {
+          "at_most_k": 3,
+          "oracle_relative_mse": 0.0005561324069276452,
+          "oracle_set": [
+            1,
+            3,
+            6
+          ],
+          "router_relative_mse": 0.001323043368756771
+        },
+        {
+          "at_most_k": 4,
+          "oracle_relative_mse": 0.00043075604480691254,
+          "oracle_set": [
+            1,
+            3,
+            4,
+            6
+          ],
+          "router_relative_mse": 0.0006686863489449024
+        },
+        {
+          "at_most_k": 5,
+          "oracle_relative_mse": 0.00020527357992250472,
+          "oracle_set": [
+            0,
+            1,
+            3,
+            4,
+            5
+          ],
+          "router_relative_mse": 0.000475283624837175
+        },
+        {
+          "at_most_k": 6,
+          "oracle_relative_mse": 0.00016659470566082746,
+          "oracle_set": [
+            0,
+            1,
+            3,
+            4,
+            5,
+            6
+          ],
+          "router_relative_mse": 0.00038489390863105655
+        },
+        {
+          "at_most_k": 7,
+          "oracle_relative_mse": 0.00011346442624926567,
+          "oracle_set": [
+            0,
+            1,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "router_relative_mse": 0.00014943208952900022
+        },
+        {
+          "at_most_k": 8,
+          "oracle_relative_mse": 8.80066300460976e-15,
+          "oracle_set": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "router_relative_mse": 8.80066300460976e-15
+        }
+      ],
+      "q_rms": 5.612140655517578,
+      "k_rms": 4.1561689376831055,
+      "v_rms": 0.4108911454677582,
+      "k_centered_token_rms": 4.097082614898682,
+      "v_centered_token_rms": 0.37252670526504517,
+      "dense_output_rms": 0.21205726265907288,
+      "layer": 1,
+      "head": 0
+    },
+    {
+      "position": 256,
+      "candidate_history_blocks": 8,
+      "enumerated_subsets": 256,
+      "points": [
+        {
+          "at_most_k": 0,
+          "oracle_relative_mse": 13.487637519836426,
+          "oracle_set": [],
+          "router_relative_mse": 13.487637519836426
+        },
+        {
+          "at_most_k": 1,
+          "oracle_relative_mse": 0.002265138551592827,
+          "oracle_set": [
+            7
+          ],
+          "router_relative_mse": 1.310123085975647
+        },
+        {
+          "at_most_k": 2,
+          "oracle_relative_mse": 0.0007604000275023282,
+          "oracle_set": [
+            0,
+            7
+          ],
+          "router_relative_mse": 1.310043454170227
+        },
+        {
+          "at_most_k": 3,
+          "oracle_relative_mse": 0.00021269291755743325,
+          "oracle_set": [
+            0,
+            1,
+            7
+          ],
+          "router_relative_mse": 0.1333402544260025
+        },
+        {
+          "at_most_k": 4,
+          "oracle_relative_mse": 1.7554300939082168e-05,
+          "oracle_set": [
+            0,
+            1,
+            3,
+            7
+          ],
+          "router_relative_mse": 0.13805396854877472
+        },
+        {
+          "at_most_k": 5,
+          "oracle_relative_mse": 5.87851809541462e-06,
+          "oracle_set": [
+            0,
+            1,
+            3,
+            5,
+            7
+          ],
+          "router_relative_mse": 0.13805396854877472
+        },
+        {
+          "at_most_k": 6,
+          "oracle_relative_mse": 3.0868570774587184e-14,
+          "oracle_set": [
+            0,
+            1,
+            3,
+            5,
+            6,
+            7
+          ],
+          "router_relative_mse": 0.1455530971288681
+        },
+        {
+          "at_most_k": 7,
+          "oracle_relative_mse": 2.312910918629671e-15,
+          "oracle_set": [
+            0,
+            1,
+            2,
+            3,
+            5,
+            6,
+            7
+          ],
+          "router_relative_mse": 0.0002771737053990364
+        },
+        {
+          "at_most_k": 8,
+          "oracle_relative_mse": 2.312910918629671e-15,
+          "oracle_set": [
+            0,
+            1,
+            2,
+            3,
+            5,
+            6,
+            7
+          ],
+          "router_relative_mse": 2.312910918629671e-15
+        }
+      ],
+      "q_rms": 3.5152273178100586,
+      "k_rms": 4.206282615661621,
+      "v_rms": 0.39787548780441284,
+      "k_centered_token_rms": 4.136438846588135,
+      "v_centered_token_rms": 0.36054447293281555,
+      "dense_output_rms": 0.2222810536623001,
+      "layer": 1,
+      "head": 1
+    },
+    {
+      "position": 287,
+      "candidate_history_blocks": 8,
+      "enumerated_subsets": 256,
+      "points": [
+        {
+          "at_most_k": 0,
+          "oracle_relative_mse": 0.009050540626049042,
+          "oracle_set": [],
+          "router_relative_mse": 0.009050540626049042
+        },
+        {
+          "at_most_k": 1,
+          "oracle_relative_mse": 0.0024313461035490036,
+          "oracle_set": [
+            6
+          ],
+          "router_relative_mse": 0.002637117635458708
+        },
+        {
+          "at_most_k": 2,
+          "oracle_relative_mse": 0.0008516691741533577,
+          "oracle_set": [
+            1,
+            6
+          ],
+          "router_relative_mse": 0.0020582855213433504
+        },
+        {
+          "at_most_k": 3,
+          "oracle_relative_mse": 0.0005388068384490907,
+          "oracle_set": [
+            1,
+            3,
+            6
+          ],
+          "router_relative_mse": 0.0007978143985383213
+        },
+        {
+          "at_most_k": 4,
+          "oracle_relative_mse": 0.00041048103594221175,
+          "oracle_set": [
+            1,
+            3,
+            4,
+            6
+          ],
+          "router_relative_mse": 0.000663819198962301
+        },
+        {
+          "at_most_k": 5,
+          "oracle_relative_mse": 0.00020159120322205126,
+          "oracle_set": [
+            0,
+            1,
+            3,
+            4,
+            5
+          ],
+          "router_relative_mse": 0.0004757769056595862
+        },
+        {
+          "at_most_k": 6,
+          "oracle_relative_mse": 0.0001492664887337014,
+          "oracle_set": [
+            0,
+            1,
+            3,
+            4,
+            5,
+            6
+          ],
+          "router_relative_mse": 0.0003888920764438808
+        },
+        {
+          "at_most_k": 7,
+          "oracle_relative_mse": 0.00011684842320391908,
+          "oracle_set": [
+            0,
+            1,
+            2,
+            3,
+            5,
+            6,
+            7
+          ],
+          "router_relative_mse": 0.00014268267841544002
+        },
+        {
+          "at_most_k": 8,
+          "oracle_relative_mse": 1.039519066935472e-14,
+          "oracle_set": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "router_relative_mse": 1.039519066935472e-14
+        }
+      ],
+      "q_rms": 5.706707000732422,
+      "k_rms": 4.189558029174805,
+      "v_rms": 0.4106495678424835,
+      "k_centered_token_rms": 4.1258463859558105,
+      "v_centered_token_rms": 0.3703950047492981,
+      "dense_output_rms": 0.21154633164405823,
+      "layer": 1,
+      "head": 1
+    }
+  ]
+}

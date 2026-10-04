@@ -47,17 +47,24 @@ bash prepare_upstream.sh
 # The ten original reference tests need only PyTorch and can run on CPU.
 .venv/bin/python -m unittest -v test_reference
 .venv/bin/python -m unittest -v test_launcher test_campaign
+.venv/bin/python -m unittest -v test_oracle test_summary
 
 # The integration tests include CUDA/model checks. Select an allocated idle GPU.
 export PYTHONPATH="$PWD:$PWD/upstream:$PWD/upstream/zoology"
 CUDA_VISIBLE_DEVICES=0 .venv/bin/python -m unittest -v test_reference test_batched
+
+# Complete 29-test release suite (same allocated device and PYTHONPATH).
+CUDA_VISIBLE_DEVICES=0 .venv/bin/python -m unittest -v \
+  test_reference test_batched test_oracle test_summary test_launcher test_campaign
 ```
 
 The upstream Zoology embedding constructor currently allocates CUDA tensors
 even when a downstream caller eventually moves the model to CPU. Therefore the
 complete integration suite requires an available CUDA device; the ten original
 tests do not. The wrapper and all eight integration tests were checked before
-training. The portable launcher and owned-child termination fallback also have
+training. Two supplementary regressions additionally test CUDA sampled
+forward/backward parity and CUDA full-model causality (ten integration tests
+in the current tree). The portable launcher and owned-child termination fallback also have
 independent standard-library regression tests; they allocate no GPU or training
 process.
 
@@ -76,7 +83,7 @@ Run one campaign per checkout. Stop its recorded supervisor PID with SIGTERM;
 only its dedicated child process group is terminated. Existing outputs are not
 silently replaced; choose a new tag for a repeat.
 
-Stages are: 18 correctness/integration tests, unmodified official short MQAR
+Stages are: 20 correctness/integration tests, unmodified official short MQAR
 example, F admission, then M/B/C/D in serial. The official example must exceed
 99% validation accuracy; the long-context F baseline must reach at least 90%
 before sparse comparisons begin. Each training subprocess has a one-hour cap.
@@ -85,28 +92,62 @@ Use `python train_mqar.py` for the original short 3,000-step F recipe, which
 failed baseline admission; the command above is the matched larger-data recipe,
 not an assertion that default hyperparameters are already optimal.
 
+## Supplementary replication
+
+The [registered supplementary contract](SUPPLEMENT.md) adds initialization
+seeds 124 and 125, keeping data, batch order and auxiliary sampling fixed.
+Run repeats serially per checkout with unique tags:
+
+```bash
+ATTENTION_GPU=0 bash launch.sh --tag repeat124 --seed 124 \
+  --steps 40000 --lr 0.001 --train-examples 100000 --dropout 0.1
+ATTENTION_GPU=0 bash launch.sh --tag repeat125 --seed 125 \
+  --steps 40000 --lr 0.001 --train-examples 100000 --dropout 0.1
+```
+
+`summarize_screen.py` accepts three `--campaign` directories containing the
+completed group runs. It verifies frozen configuration/runtime, scientific
+source, data, initialization, batch/auxiliary sampling, all 161 validation
+points and the 32,000-query denominator before aggregating three seeds.
+`oracle_diagnostic.py` enumerates all 256 subsets of eight closed history
+blocks on eight held-out query/head/layer rows per checkpoint. Its at-most-k
+local-error curve is neither a task-quality oracle nor an efficient router.
+Both scripts refuse to replace an existing output.
+
+The completed [three-seed artifact](evidence/supplement_3seed.json),
+[29-test record](evidence/correctness_supplement.json) and
+[exact-oracle rows](evidence/oracle) supplement the original snapshot.
+D has lower accuracy and higher CE than C in all three observed seeds;
+D/C geometric CE ratio is 2.1678, but its exploratory 95% interval
+[0.8577, 5.4792] includes no difference. Do not call this statistically
+established harm or universal collapse. See the contract for all group scores,
+negative evidence, paired intervals and conditional oracle limitations.
+
 ## Evidence and limitations
 
-The curated [screening evidence](evidence/screen_20261004.json) and
+The original, partial [screening snapshot](evidence/screen_20261004.json) and
 [experiment contract](EXPERIMENT.md) distinguish completed observations from
-queued work. Two inadequate full-attention recipes are retained as negative
-evidence rather than erased. One seed and validation-selected checkpoints do
-not establish a general quality/read frontier, novelty or statistical advantage.
+queued work at the time of that snapshot; it is not a live status record.
+Two inadequate full-attention recipes are retained as negative evidence rather
+than erased. Three initialization seeds on fixed data and validation-selected
+checkpoints do not establish a general quality/read frontier, novelty or
+statistical advantage.
 
 The batched backend computes all detail logits densely before masking. Logical
 detail/summary/router counts are **not physical HBM traffic or GPU speedups**.
 It retains the entire KV sequence and rebuilds summaries: no KV-capacity saving,
 incremental decode cache, GQA or optimized prefill/decode kernel is claimed.
 Budget/context changes after training are OOD diagnostics, not budget-trained
-Pareto points. Exact/greedy oracle curves, three seeds, real-corpus LM training
-and optimized external system comparisons remain separate pending gates.
+Pareto points. Representative oracle/greedy curves beyond the bounded row set,
+real-corpus LM training and optimized external system comparisons remain pending.
 
 Near neighbors include [NSA](https://arxiv.org/abs/2502.11089),
 [MoBA](https://arxiv.org/abs/2502.13189),
 [SeerAttention](https://arxiv.org/abs/2410.13276), and
 [MiniMax Sparse Attention](https://arxiv.org/html/2606.13392v1), whose auxiliary
 gradient ablations are material counterevidence to broad representation-shaping
-claims. The narrower C/D output-alignment hypothesis remains to be tested.
+claims. The supplementary fixed-recipe MQAR runs do not establish a C/D
+representation advantage; behavior on other workloads remains unknown.
 
 Public files exclude device configurations, raw attachments, environments,
 checkpoints, datasets, raw operational logs and private experiment history.
