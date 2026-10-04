@@ -53,9 +53,10 @@ bash prepare_upstream.sh
 export PYTHONPATH="$PWD:$PWD/upstream:$PWD/upstream/zoology"
 CUDA_VISIBLE_DEVICES=0 .venv/bin/python -m unittest -v test_reference test_batched
 
-# Complete 29-test release suite (same allocated device and PYTHONPATH).
+# Complete 42-test release suite (same allocated device and PYTHONPATH).
 CUDA_VISIBLE_DEVICES=0 .venv/bin/python -m unittest -v \
-  test_reference test_batched test_oracle test_summary test_launcher test_campaign
+  test_reference test_batched test_oracle test_summary test_launcher test_campaign \
+  test_diagnostics test_diagnostic_summary
 ```
 
 The upstream Zoology embedding constructor currently allocates CUDA tensors
@@ -123,6 +124,41 @@ D/C geometric CE ratio is 2.1678, but its exploratory 95% interval
 established harm or universal collapse. See the contract for all group scores,
 negative evidence, paired intervals and conditional oracle limitations.
 
+## Phase 2: source-routing and exact conditional oracle
+
+The [phase-2 protocol](experiments/next_round_protocol.md) and
+[decision/evidence tables](results/phase2/DECISION.md) execute E0/E1/E2 without
+retraining. All seed-123 best/last checkpoint and archived log hashes are verified.
+Diagnosis-dev uses 256 fresh sequences (seed 9123), 8192 true queries. The exact
+k<=1 oracle uses 1024 identical true queries per B/C/D checkpoint, both layers
+and heads; four nonqueries per sequence are reported separately.
+
+**Negative joint result:** native D best accuracy is 0.1099%, C is 65.2466%,
+F is 99.8169%. Correct-source last-layer selection raises C to 98.9014% but
+leaves D unchanged. D has extremely small native local-oracle error, yet its
+last-layer oracle-output injection also does not recover task accuracy. These
+truth/full-history diagnostics are not deployable routers or system results.
+The predeclared task-preservation gate failed; E3/E4/E5 expansion stopped and
+the reserved final test remains unopened. No pure representation claim is made.
+
+```bash
+# Select an allocated idle GPU; use a new output directory, never overwrite.
+export PYTHONPATH="$PWD:$PWD/upstream:$PWD/upstream/zoology"
+CUDA_VISIBLE_DEVICES=0 .venv/bin/python analyze_mqar.py \
+  --runs /path/to/completed/seed123/campaign --output results/local_phase2
+.venv/bin/python summarize_diagnostics.py results/local_phase2
+
+# Lossless released row traces; their raw digests are in artifact_manifest.json.
+gzip -dk results/phase2/route_rows.jsonl.gz results/phase2/oracle_rows.jsonl.gz
+```
+
+The analysis CLI requires original seed-123 checkpoint artifacts matching the
+published three-seed manifest. Its fresh models preserve weights/input hashes,
+caller RNG and diagnostic settings, and create no optimizer. Standalone CLI
+invocation requires the caller's GPU allocation/lock policy; it is **not** the
+training launcher. Reported intervals resample sequences, not individual queries.
+42 tests passed on the declared GPU stack; raw checkpoints/data stay outside Git.
+
 ## Evidence and limitations
 
 The original, partial [screening snapshot](evidence/screen_20261004.json) and
@@ -138,7 +174,7 @@ detail/summary/router counts are **not physical HBM traffic or GPU speedups**.
 It retains the entire KV sequence and rebuilds summaries: no KV-capacity saving,
 incremental decode cache, GQA or optimized prefill/decode kernel is claimed.
 Budget/context changes after training are OOD diagnostics, not budget-trained
-Pareto points. Representative oracle/greedy curves beyond the bounded row set,
+Pareto points. Multi-seed oracle replication beyond the fresh diagnosis-dev set,
 real-corpus LM training and optimized external system comparisons remain pending.
 
 Near neighbors include [NSA](https://arxiv.org/abs/2502.11089),

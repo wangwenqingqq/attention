@@ -8,3 +8,6 @@ __pycache__/
 *.pt
 *.zip
 .env
+
+# Large per-query diagnostic traces are released as deterministic gzip.
+results/phase2/*_rows.jsonl
