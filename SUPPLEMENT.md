@@ -73,7 +73,8 @@ actual mean-key router on the same row. Require monotone oracle errors,
 oracle <= routed error and a dense all-history endpoint. No approximation or
 larger search is labeled exact. This is eight rows/model, not a task-quality
 oracle, representative corpus estimate, deployable router or latency result.
-Record Q/K/V and dense-output RMS to diagnose, not prove, representation loss.
+Record Q/K/V and dense-output RMS and centered K/V token RMS to diagnose, not
+prove, representation loss.
 
 Two additional CUDA regressions cover sampled-loop output/backward parity at
 zero/one/all history budgets and full-model future-token invariance on GPU.

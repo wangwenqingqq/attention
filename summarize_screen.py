@@ -33,6 +33,16 @@ def validate_contract(groups):
     assert groups["F"]["best_validation"]["query_accuracy"] >= 0.9, "Failed full-baseline admission"
 
 
+def validate_history(history, best):
+    assert [row["step"] for row in history] == [1, *range(250, 40001, 250)], "Incomplete evaluation history"
+    for row in history:
+        assert row["query_count"] == 32000, "Unexpected validation denominator"
+        assert row["training_tokens"] == row["step"] * 32 * 512
+        assert math.isfinite(row["query_ce"]) and row["query_ce"] >= 0
+        assert 0 <= row["query_accuracy"] <= 1
+    assert best == min(history, key=lambda row: row["query_ce"]), "Best checkpoint/history mismatch"
+
+
 def collect_campaign(campaign):
     full = list(campaign.glob("F_seed*/metadata.json"))
     if len(full) != 1:
@@ -49,11 +59,13 @@ def collect_campaign(campaign):
         for key, expected in {"train_examples": 100000, "dropout": 0.1, "lr": 0.001,
                               "batch": 32, "aux_weight": 0.1, "aux_interval": 8,
                               "aux_queries": 16, "aux_layers": 1, "parameters": 806400,
-                              "dtype": "float32"}.items():
+                              "dtype": "float32", "torch": "2.11.0+cu130",
+                              "torchvision": "0.26.0+cu130", "cuda": "13.0",
+                              "upstream_commit": "1ad20d193b6113cae1e8f3c655c300d7b4b3f4bb",
+                              "gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition"}.items():
             assert metadata[key] == expected, f"Unexpected {group} {key}"
         history = read_rows(run / "metrics.jsonl")
-        assert history[-1]["step"] == 40000
-        assert min(row["query_ce"] for row in history) == result["best_validation"]["query_ce"]
+        validate_history(history, result["best_validation"])
         order, auxiliary = hashlib.sha256(), hashlib.sha256()
         samples, aux_samples, early, late = 0, 0, [], []
         for line in (run / "train.jsonl").open():
@@ -89,13 +101,30 @@ def collect_campaign(campaign):
             artifacts={name: {"sha256": sha256(run / name), "bytes": (run / name).stat().st_size}
                        for name in ("initial.pt", "best.pt", "last.pt", "train.jsonl", "metrics.jsonl", "diagnostics.jsonl")})
     validate_contract(groups)
-    return {"seed": seed, "groups": groups}
+    source = campaign.parents[1]
+    sources = {name: sha256(source / name) for name in ("train_mqar.py", "memory_attention.py")}
+    references = [source / "block_memory_reference.py", source / "original" / "block_memory_reference.py",
+                  source / "attention_memory_starter" / "block_memory_reference.py"]
+    hashes = {sha256(path) for path in references if path.is_file()}
+    assert len(hashes) == 1, "Missing or conflicting reference source"
+    sources["block_memory_reference.py"] = hashes.pop()
+    return {"seed": seed, "groups": groups, "scientific_source_sha256": sources}
+
+
+def validate_replicates(records):
+    assert sorted(row["seed"] for row in records) == [123, 124, 125]
+    for key in ("train_sha256", "valid_sha256", "batch_order_sha256"):
+        assert len({row["groups"]["F"][key] for row in records}) == 1, f"Cross-seed mismatch: {key}"
+    assert len({row["groups"]["C"]["aux_schedule_sha256"] for row in records}) == 1, "Cross-seed auxiliary sampling mismatch"
+    sources = [row["scientific_source_sha256"] for row in records]
+    assert all(source == sources[0] for source in sources), "Cross-seed scientific source mismatch"
+    assert len({row["groups"]["F"]["initial_state_sha256"] for row in records}) == 3, "Seeds did not change initialization"
 
 
 def summarize(campaigns):
     records = [collect_campaign(path) for path in campaigns]
     records.sort(key=lambda row: row["seed"])
-    assert [row["seed"] for row in records] == [123, 124, 125]
+    validate_replicates(records)
     effects = {}
     for candidate, keeper in (("D", "C"), ("C", "B")):
         ratios, accuracy = [], []

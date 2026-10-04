@@ -36,6 +36,8 @@ def exact_curve(module, q, k, v, position):
             "enumerated_subsets": len(subsets), "points": points,
             "q_rms": q.square().mean().sqrt().item(), "k_rms": k.square().mean().sqrt().item(),
             "v_rms": v.square().mean().sqrt().item(),
+            "k_centered_token_rms": (k - k.mean(-2, keepdim=True)).square().mean().sqrt().item(),
+            "v_centered_token_rms": (v - v.mean(-2, keepdim=True)).square().mean().sqrt().item(),
             "dense_output_rms": target.square().mean().sqrt().item()}
 
 

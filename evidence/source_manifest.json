@@ -2,13 +2,13 @@
   "block_memory_reference.py": "91e01a285dcf863e3d8668142088ee1edd594ac95d2bc6d59a07766c88a41a9f",
   "campaign.py": "439d28970fd91cb30277bb4e14f46290d6698bc6bee16ac2799d69f3fc4e7686",
   "memory_attention.py": "ca1881b9949c51ef137735c63b2902c72862e82076ed3000b209ffa48decc088",
-  "oracle_diagnostic.py": "86169f570f13dde89b6230e75fe500dd6185bcdfad824b9d466ed65a18d53d6b",
-  "summarize_screen.py": "8b02176e3a8543c2db3364b4968751c9121e2d7e823ca906022b490aefda37e3",
+  "oracle_diagnostic.py": "020616a30196de1005c95ed192784b1b5f066f4b9954f533a2ede0ffcef439ab",
+  "summarize_screen.py": "40963564a34835a829d41bdf435f48f3e45cb3f31660d51ff84ebfaee195347a",
   "test_batched.py": "8198ec21f8a62a8870f890c09a4e2a9b8392d0d4191191dcfcd44bb1f418c71f",
   "test_campaign.py": "b98a439ad689b0c5401d1b6370cd90498faa449e5bb6862db1ec0fed47a67932",
   "test_launcher.py": "3343798ff4c3cf7a1bba6a27378976a2aa101c9644bd2da0bdeb19d9991452c6",
   "test_oracle.py": "f4f73e3c7566dfda9426c297049d3f386e702af0aa850380951c0bd8d1bbdd5c",
   "test_reference.py": "52acbb455900315f40c7730957e8623ea4c8f6250e93ca8fd0e0a9aeb3ecee9a",
-  "test_summary.py": "da76ab9132ff46202255d98093c00824d6698b93fa4128040fcb882b7418ae85",
+  "test_summary.py": "ac496e11afda1d4cf1b93545a6bcfa3e8577f0cd1c7f2a414f81e9eea16620ad",
   "train_mqar.py": "d1afbb9cf154eea6bff546cfabb8d5d06e636e5698e2d00020b00c35c76806ba"
 }
