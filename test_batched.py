@@ -122,6 +122,36 @@ class BatchedTests(unittest.TestCase):
         optimizer.step()
         model.zero_grad(set_to_none=True)
 
+    def test_cuda_sampled_loop_parity_and_all_history_backward(self):
+        q = torch.randn(2, 2, 4, 64, device="cuda", requires_grad=True)
+        k = torch.randn(2, 2, 97, 64, device="cuda", requires_grad=True)
+        v = torch.randn_like(k, requires_grad=True)
+        positions = torch.tensor([0, 32, 63, 96], device="cuda")
+        ref, fast = BlockMemoryReference(64, 32, 2).cuda(), BatchedMemory(64, 32, 2).cuda()
+        fast.load_state_dict(ref.state_dict())
+        for budget in (0, 1, 100):
+            a, _ = ref(q, k, v, positions, budget)
+            b, _ = fast(q, k, v, positions, budget)
+            torch.testing.assert_close(a, b, atol=4e-6, rtol=4e-5)
+            for x, y in zip(torch.autograd.grad(a.square().sum(), (q, k, v)),
+                            torch.autograd.grad(b.square().sum(), (q, k, v))):
+                torch.testing.assert_close(x, y, atol=8e-6, rtol=8e-5)
+        target = dense_reference(q, k, v, positions)
+        torch.testing.assert_close(b, target, atol=4e-6, rtol=4e-5)
+        b, _ = fast(q, k, v, positions, 100)
+        for x, y in zip(torch.autograd.grad(b.square().sum(), (q, k, v)),
+                        torch.autograd.grad(target.square().sum(), (q, k, v))):
+            torch.testing.assert_close(x, y, atol=8e-6, rtol=8e-5)
+
+    def test_cuda_model_causality(self):
+        from train_mqar import build_model
+        model = build_model("D", 123, "cuda").eval()
+        ids = torch.randint(2048, (2, 97), device="cuda")
+        changed = ids.clone()
+        changed[:, 65:] = torch.randint(2048, (2, 32), device="cuda")
+        with torch.no_grad():
+            torch.testing.assert_close(model(ids)[:, :65], model(changed)[:, :65])
+
     def test_moba_matches_official_naive(self):
         from moba_naive import moba_attn_varlen_naive
         q, k, v = (torch.randn(1, 2, 13, 8) for _ in range(3))

@@ -61,3 +61,21 @@ deployable sparse-attention benchmark.
 Implementation status, mechanism decision and thesis impact are reported
 separately. A negative synthetic MQAR result rejects only the fixed recipe and
 task claim; real-corpus/aggregation behavior remains unknown.
+
+## Registered bounded oracle follow-up
+
+After training completes, capture B/C/D Q/K/V at one fixed, distinct held-out
+example (data seed 6123, context 512, 32 pairs). At positions 256 and 287 there
+are exactly eight closed history blocks. For both layers and heads, enumerate
+all 256 subsets with learned summaries, mandatory current prefix and one
+softmax. Record the best visited subset of size **at most k**, k=0..8, and the
+actual mean-key router on the same row. Require monotone oracle errors,
+oracle <= routed error and a dense all-history endpoint. No approximation or
+larger search is labeled exact. This is eight rows/model, not a task-quality
+oracle, representative corpus estimate, deployable router or latency result.
+Record Q/K/V and dense-output RMS to diagnose, not prove, representation loss.
+
+Two additional CUDA regressions cover sampled-loop output/backward parity at
+zero/one/all history budgets and full-model future-token invariance on GPU.
+They supplement rather than replace the original 18 gates. Training is not
+changed by these offline diagnostics or tests.
