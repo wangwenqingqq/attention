@@ -84,6 +84,7 @@ def main():
     parser.add_argument("--lr", type=float, default=3e-4)
     parser.add_argument("--train-examples", type=int, default=10000)
     parser.add_argument("--dropout", type=float, default=0.0)
+    parser.add_argument("--seed", type=int, default=123)
     args = parser.parse_args()
     if args.tag and not re.fullmatch(r"[a-zA-Z0-9_-]+", args.tag):
         raise ValueError("Tag must be a simple nonempty directory name")
@@ -96,7 +97,7 @@ def main():
         signal.signal(sig, stop)
     (ROOT / "campaign.pid").write_text(str(os.getpid()) + "\n")
     record("preflight", gpu=GPU, tag=args.tag, lr=args.lr, steps=args.steps,
-           train_examples=args.train_examples, dropout=args.dropout,
+           train_examples=args.train_examples, dropout=args.dropout, seed=args.seed,
            checkpoint="new task directory; original inputs immutable")
     environment = subprocess.check_output([
         "nvidia-smi", "--query-gpu=index,name,uuid,compute_cap,driver_version,pstate,power.draw,clocks.sm,memory.used",
@@ -115,8 +116,9 @@ def main():
     record("official_basic_admitted", max_accuracy=max(accuracies))
     runs = {}
     for group in "FMBCD":
-        output = outputs / f"{group}_seed123"
+        output = outputs / f"{group}_seed{args.seed}"
         run(f"mqar_{group}", [PYTHON, "train_mqar.py", "--group", group, "--output", str(output),
+                             "--seed", str(args.seed),
                              "--steps", str(args.steps), "--lr", str(args.lr),
                              "--train-examples", str(args.train_examples), "--dropout", str(args.dropout)],
             logs / f"mqar_{group}.log", cap_seconds=3600)
