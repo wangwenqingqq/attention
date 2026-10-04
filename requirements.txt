@@ -1,0 +1,7 @@
+numpy==2.3.5
+einops==0.8.2
+tqdm==4.70.0
+click==8.4.2
+pydantic==2.13.4
+wandb==0.25.1
+pandas==3.0.2

@@ -1,0 +1,8 @@
+{
+  "block_memory_reference.py": "91e01a285dcf863e3d8668142088ee1edd594ac95d2bc6d59a07766c88a41a9f",
+  "test_reference.py": "52acbb455900315f40c7730957e8623ea4c8f6250e93ca8fd0e0a9aeb3ecee9a",
+  "memory_attention.py": "ca1881b9949c51ef137735c63b2902c72862e82076ed3000b209ffa48decc088",
+  "test_batched.py": "f738d98a0498e63664404dfec9f3b3602a4d1107078f4cec6ff4e58bf0a4845d",
+  "train_mqar.py": "d1afbb9cf154eea6bff546cfabb8d5d06e636e5698e2d00020b00c35c76806ba",
+  "campaign.py": "19f6ab3358405ab164652297fa1a61b5e565fdc4eaa796e702b040f4d8c02a46"
+}

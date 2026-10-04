@@ -1,0 +1,138 @@
+{
+  "date": "2026-10-04",
+  "scope": "one-seed synthetic MQAR screening; validation-selected checkpoints; no system-speed evidence",
+  "snapshot_stage": "mqar_D",
+  "hardware": {
+    "model": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+    "compute_capability": "12.0",
+    "driver": "590.48.01"
+  },
+  "runtime": {
+    "python": "3.12",
+    "torch": "2.11.0+cu130",
+    "torchvision": "0.26.0+cu130"
+  },
+  "groups": {
+    "F": {
+      "state": "completed",
+      "best_validation": {
+        "query_ce": 0.006313713552430272,
+        "query_accuracy": 0.9989375,
+        "query_count": 32000,
+        "step": 24750,
+        "training_tokens": 405504000,
+        "wall_seconds": 163.28675311699044,
+        "peak_allocated_bytes": 1154728448
+      },
+      "steps": 40000,
+      "initial_state_sha256": "b799650d7d28ebe0c7b49405d8ebf9fdfc0d67338238f8e559b3e15c7d8578cb",
+      "train_sha256": "6a6bbe7322bb3a02cc77054f8b059dd3cc6a8769f8353141bfc228d4a9290e3c",
+      "valid_sha256": "cc041cb5d2cadd57be0b516c82abbbc00e963a5a0acff5c0c92265e670bc47a8",
+      "wall_seconds_including_validation_and_diagnostics": 263.72961383196525,
+      "denominator": "CE and exact accuracy over 32000 validation query labels; not a held-out final test"
+    },
+    "M": {
+      "state": "completed",
+      "best_validation": {
+        "query_ce": 2.866572904586792,
+        "query_accuracy": 0.6118125,
+        "query_count": 32000,
+        "step": 33750,
+        "training_tokens": 552960000,
+        "wall_seconds": 286.5029485729756,
+        "peak_allocated_bytes": 1188282880
+      },
+      "steps": 40000,
+      "initial_state_sha256": "b799650d7d28ebe0c7b49405d8ebf9fdfc0d67338238f8e559b3e15c7d8578cb",
+      "train_sha256": "6a6bbe7322bb3a02cc77054f8b059dd3cc6a8769f8353141bfc228d4a9290e3c",
+      "valid_sha256": "cc041cb5d2cadd57be0b516c82abbbc00e963a5a0acff5c0c92265e670bc47a8",
+      "wall_seconds_including_validation_and_diagnostics": 340.23343778797425,
+      "denominator": "CE and exact accuracy over 32000 validation query labels; not a held-out final test"
+    },
+    "B": {
+      "state": "completed",
+      "best_validation": {
+        "query_ce": 2.4731445007324218,
+        "query_accuracy": 0.631,
+        "query_count": 32000,
+        "step": 21500,
+        "training_tokens": 352256000,
+        "wall_seconds": 219.61394650198054,
+        "peak_allocated_bytes": 1231274496
+      },
+      "steps": 40000,
+      "initial_state_sha256": "b799650d7d28ebe0c7b49405d8ebf9fdfc0d67338238f8e559b3e15c7d8578cb",
+      "train_sha256": "6a6bbe7322bb3a02cc77054f8b059dd3cc6a8769f8353141bfc228d4a9290e3c",
+      "valid_sha256": "cc041cb5d2cadd57be0b516c82abbbc00e963a5a0acff5c0c92265e670bc47a8",
+      "wall_seconds_including_validation_and_diagnostics": 408.29979765194,
+      "denominator": "CE and exact accuracy over 32000 validation query labels; not a held-out final test"
+    },
+    "C": {
+      "state": "completed",
+      "best_validation": {
+        "query_ce": 2.1776826820373536,
+        "query_accuracy": 0.65440625,
+        "query_count": 32000,
+        "step": 39500,
+        "training_tokens": 647168000,
+        "wall_seconds": 405.5154866729863,
+        "peak_allocated_bytes": 1244026880
+      },
+      "steps": 40000,
+      "initial_state_sha256": "b799650d7d28ebe0c7b49405d8ebf9fdfc0d67338238f8e559b3e15c7d8578cb",
+      "train_sha256": "6a6bbe7322bb3a02cc77054f8b059dd3cc6a8769f8353141bfc228d4a9290e3c",
+      "valid_sha256": "cc041cb5d2cadd57be0b516c82abbbc00e963a5a0acff5c0c92265e670bc47a8",
+      "wall_seconds_including_validation_and_diagnostics": 411.54952491098084,
+      "denominator": "CE and exact accuracy over 32000 validation query labels; not a held-out final test"
+    },
+    "D": {
+      "state": "running",
+      "claim": "no completed comparison evidence"
+    }
+  },
+  "negative_recipes": [
+    {
+      "group": "F",
+      "train_examples": 10000,
+      "dropout": 0,
+      "lr": 0.0003,
+      "steps": 3000,
+      "best_validation": {
+        "query_ce": 6.079118446350098,
+        "query_accuracy": 0.03096875,
+        "query_count": 32000,
+        "step": 2500,
+        "training_tokens": 40960000,
+        "wall_seconds": 17.772060294053517,
+        "peak_allocated_bytes": 984859136
+      },
+      "decision": "baseline admission failed; sparse comparisons not started",
+      "reopen_condition": "full attention reliably learns the same workload under a matched recipe"
+    },
+    {
+      "group": "F",
+      "train_examples": 10000,
+      "dropout": 0,
+      "lr": 0.001,
+      "steps": 20000,
+      "best_validation": {
+        "query_ce": 6.1797612991333,
+        "query_accuracy": 0.0320625,
+        "query_count": 32000,
+        "step": 2500,
+        "training_tokens": 40960000,
+        "wall_seconds": 16.22887053503655,
+        "peak_allocated_bytes": 984859136
+      },
+      "decision": "baseline admission failed; sparse comparisons not started",
+      "reopen_condition": "full attention reliably learns the same workload under a matched recipe"
+    }
+  ],
+  "pending_gates": [
+    "3-seed confidence intervals",
+    "exact/greedy oracle curves",
+    "budget-trained Pareto points",
+    "real-corpus LM",
+    "optimized system/external comparisons"
+  ]
+}
