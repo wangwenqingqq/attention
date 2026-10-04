@@ -1,11 +1,12 @@
 {
-  "analyze_mqar.py": "20eceb87f46a9bf0fae106fa9e4a406394be07c4983cd726d6e4b85ed4ebbc26",
+  "analyze_mqar.py": "8c0566e6493b6a7e4b517792e721aab99bd993d981088f79beb59a135bef81d5",
   "block_memory_reference.py": "91e01a285dcf863e3d8668142088ee1edd594ac95d2bc6d59a07766c88a41a9f",
   "campaign.py": "439d28970fd91cb30277bb4e14f46290d6698bc6bee16ac2799d69f3fc4e7686",
   "memory_attention.py": "3a8c11cabaf70db52f5af11216225e03ee5f3f76ce85ffc9e763b03cc2da3072",
   "mqar_metadata.py": "fa02ebb681888b351e1f823be5f55c5e2969f7c00a9fd67859b173bf8b22a7bb",
   "oracle_diagnostic.py": "020616a30196de1005c95ed192784b1b5f066f4b9954f533a2ede0ffcef439ab",
   "oracle_diagnostics.py": "d40ae44202578948df7421c02d3a07026948cb499aadc89a278a68503a47b1cc",
+  "summarize_diagnostics.py": "dcea7eb2bc97a56a2293d91da4e0cb36705803a1b8ba44272860d9639a82af78",
   "summarize_screen.py": "40963564a34835a829d41bdf435f48f3e45cb3f31660d51ff84ebfaee195347a",
   "test_batched.py": "8198ec21f8a62a8870f890c09a4e2a9b8392d0d4191191dcfcd44bb1f418c71f",
   "test_campaign.py": "b98a439ad689b0c5401d1b6370cd90498faa449e5bb6862db1ec0fed47a67932",

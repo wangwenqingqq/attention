@@ -82,13 +82,17 @@ def task_rows(logits, y):
 
 
 @torch.no_grad()
-def e0(model, x, y):
+def e0(model, x, y, sample_rows=None):
     ce, correct, counts = [], [], dict(detail_pairs=0, summary_pairs=0, router_key_vectors=0)
     modules = mixers(model)
     for start in range(0, len(x), 32):
         xb, yb = x[start:start+32].cuda(), y[start:start+32].cuda()
         loss, ok = task_rows(model(xb), yb)
         ce.extend(loss.tolist()); correct.extend(ok.tolist())
+        if sample_rows is not None:
+            for b in range(len(xb)):
+                sample_rows.append(dict(sample_id=start+b, query_ce=float(loss[b*32:(b+1)*32].mean()),
+                                        query_accuracy=float(ok[b*32:(b+1)*32].mean()), query_count=32))
         for b in range(len(xb)):
             pos = torch.where(yb[b] != -100)[0]
             for m in modules:
@@ -104,7 +108,7 @@ def e0(model, x, y):
 
 
 @torch.no_grad()
-def routes(model, x, y, metadata, stream, group, checkpoint_hash):
+def routes(model, x, y, metadata, stream, group, checkpoint_hash, sample_rows=None):
     modules = mixers(model)
     intervention = {name: [0., 0., 0] for name in ('baseline', 'replay', 'source_head0', 'source_head1', 'source_both')}
     for start in range(0, len(x), 32):
@@ -154,6 +158,11 @@ def routes(model, x, y, metadata, stream, group, checkpoint_hash):
             else:
                 current = baseline
             ce, acc = task_rows(current, yb)
+            if sample_rows is not None:
+                for b in range(len(xb)):
+                    sample_rows.append(dict(group=group, intervention=name, sample_id=start+b,
+                                            query_ce=float(ce[b*32:(b+1)*32].mean()),
+                                            query_accuracy=float(acc[b*32:(b+1)*32].mean()), query_count=32))
             intervention[name][0] += float(ce.sum())
             intervention[name][1] += float(acc.sum())
             intervention[name][2] += len(ce)
@@ -258,6 +267,7 @@ def main():
                           torch=torch.__version__, cuda=torch.version.cuda, gpu=torch.cuda.get_device_name(),
                           tf32=False, final_test_generated=False, checkpoints=[])
         same, source_interventions, all_oracles, injection = [], [], [], []
+        task_samples, source_samples = [], []
         with (args.output/'route_rows.jsonl').open('x') as route_stream, (args.output/'oracle_rows.jsonl').open('x') as oracle_stream:
             for group in 'FMBCD':
                 run = args.runs/f'{group}_seed123'
@@ -280,12 +290,14 @@ def main():
                     model.load_state_dict(payload['model'], strict=True)
                     del payload
                     with preserved(model):
-                        result = e0(model, x, y)
+                        per_sample = []
+                        result = e0(model, x, y, per_sample)
+                        task_samples.extend(dict(group=group, checkpoint_kind=kind, **r) for r in per_sample)
                         same.append(dict(group=group, seed=123, checkpoint_kind=kind,
                                          checkpoint_sha256=checkpoint_hash, step=(min(histories, key=lambda r: r['query_ce'])['step'] if kind == 'best' else 40000), **result))
                         print(json.dumps(same[-1]), flush=True)
                         if kind == 'best' and group != 'F':
-                            source_interventions.extend(routes(model, x, y, metadata, route_stream, group, checkpoint_hash))
+                            source_interventions.extend(routes(model, x, y, metadata, route_stream, group, checkpoint_hash, source_samples))
                             if group != 'M':
                                 rows, injected = oracles(model, x, y, samples, oracle_stream, group, checkpoint_hash)
                                 all_oracles.extend(rows); injection.extend(injected)
@@ -295,6 +307,8 @@ def main():
                     del model
         if digest_tensors(x, y) != data_hash:
             raise AssertionError('Input/label mutation')
+    write_csv(args.output/'task_sample_rows.csv', task_samples)
+    write_csv(args.output/'source_intervention_sample_rows.csv', source_samples)
     write_csv(args.output/'same_budget_dev.csv', same)
     write_csv(args.output/'source_intervention.csv', source_interventions)
     write_csv(args.output/'oracle_task_rows.csv', injection)
