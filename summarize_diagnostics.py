@@ -32,6 +32,36 @@ def paired_interval(first, second, kind):
     return value, np.quantile(bootstrap, [.025, .975]).tolist()
 
 
+
+def validate_ids(route, oracle, examples=256, queries=32, sampled=4):
+    """Validate sample-cluster topology and model-independent query IDs."""
+    reference = None
+    for g in 'MBCD':
+        rows = [r for r in route if r['group'] == g]
+        ids = {(r['sample_id'], r['query_position']) for r in rows}
+        if len(rows) != examples*queries or len(ids) != len(rows):
+            raise ValueError('Incomplete or duplicate routing rows')
+        if any(sum(r['sample_id'] == i for r in rows) != queries for i in range(examples)):
+            raise ValueError('Incomplete routing sample clusters')
+        if reference is not None and ids != reference:
+            raise ValueError('Routing query IDs differ across models')
+        reference = ids
+    sampled_ids = {}
+    for g in 'BCD':
+        for kind in ('query', 'nonquery'):
+            for layer in range(2):
+                rows = [r for r in oracle if (r['group'], r['kind'], r['layer']) == (g, kind, layer)]
+                ids = {(r['sample_id'], r['query_position']) for r in rows}
+                if len(rows) != examples*sampled or len(ids) != len(rows):
+                    raise ValueError('Incomplete or duplicate oracle rows')
+                if any(sum(r['sample_id'] == i for r in rows) != sampled for i in range(examples)):
+                    raise ValueError('Incomplete oracle sample clusters')
+                if kind in sampled_ids and sampled_ids[kind] != ids:
+                    raise ValueError('Oracle query IDs differ across models/layers')
+                sampled_ids[kind] = ids
+    if not sampled_ids['query'].issubset(reference) or sampled_ids['nonquery'] & reference:
+        raise ValueError('Oracle query/nonquery classification disagrees with routing')
+
 def main():
     parser = argparse.ArgumentParser(); parser.add_argument('results', type=Path)
     root = parser.parse_args().results
@@ -39,6 +69,7 @@ def main():
     oracle = [json.loads(line) for line in (root/'oracle_rows.jsonl').read_text().splitlines()]
     if len(route) != 4*8192 or len(oracle) != 3*2*2*1024:
         raise ValueError('Incomplete declared query denominators')
+    validate_ids(route, oracle)
     signatures = {}
     bins, hits = defaultdict(list), defaultdict(list)
     for r in route:

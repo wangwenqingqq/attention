@@ -18,6 +18,8 @@ from oracle_diagnostics import exact_oracle
 from train_mqar import build_model, dataset, digest_tensors, mixers
 
 
+ROOT = Path(__file__).resolve().parent
+
 ATTRS = ('k_history', 'capture', 'last_qkv', 'last_selected', 'last_output',
          'forced_selection', 'output_intervention', 'diagnostic_mode',
          'aux_positions', 'auxiliary_loss')
@@ -262,10 +264,13 @@ def main():
         del validations
         provenance = dict(dev_seed=9123, dev_examples=256, dev_sha256=data_hash,
                           query_sampling_seed=10123, original_valid_sha256=valid_hash,
-                          analysis_commit=subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip(),
-                          source_sha256={p.name: sha(p) for p in Path('.').glob('*.py')},
+                          analysis_commit=subprocess.check_output(['git', '-C', str(ROOT), 'rev-parse', 'HEAD'], text=True).strip(),
+                          source_sha256={p.name: sha(p) for p in ROOT.glob('*.py')},
                           torch=torch.__version__, cuda=torch.version.cuda, gpu=torch.cuda.get_device_name(),
                           tf32=False, final_test_generated=False, checkpoints=[])
+        registered = json.loads((ROOT/'evidence/supplement_3seed.json').read_text())['campaigns'][0]
+        if registered['seed'] != 123:
+            raise ValueError('Expected archived seed-123 campaign')
         same, source_interventions, all_oracles, injection = [], [], [], []
         task_samples, source_samples = [], []
         with (args.output/'route_rows.jsonl').open('x') as route_stream, (args.output/'oracle_rows.jsonl').open('x') as oracle_stream:
@@ -279,6 +284,13 @@ def main():
                         raise ValueError(f'Frozen metadata mismatch: {key}')
                 if meta['valid_sha256'] != valid_hash:
                     raise ValueError('Original validation generator/hash drift')
+                original = registered['groups'][group]
+                for key in ('initial_state_sha256', 'train_sha256', 'valid_sha256', 'source_commit', 'upstream_commit'):
+                    if meta[key] != original[key]:
+                        raise ValueError(f'Archived provenance mismatch: {key}')
+                for name, artifact in original['artifacts'].items():
+                    if sha(run/name) != artifact['sha256']:
+                        raise ValueError(f'Archived artifact changed: {group}/{name}')
                 histories = [json.loads(line) for line in (run/'metrics.jsonl').read_text().splitlines()]
                 for kind in ('best', 'last'):
                     checkpoint = run/f'{kind}.pt'
